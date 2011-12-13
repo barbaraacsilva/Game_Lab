@@ -15,7 +15,7 @@ public class Character {
 	
 	protected String name;
 	protected Double healthPoints;
-	protected Double speed;
+	protected int speed;
 	protected Double range;
 	protected CharacterType type;
 	protected Double damage;
@@ -34,10 +34,10 @@ public class Character {
 	public void setType(CharacterType type) {
 		this.type = type;
 	}
-	public Double getSpeed() {
+	public int getSpeed() {
 		return speed;
 	}
-	public void setSpeed(Double speed) {
+	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 	public Double getRange() {
@@ -60,4 +60,5 @@ public class Character {
 	}
 	public void takeDamage(Double damage) {	
 	}
+	
 }

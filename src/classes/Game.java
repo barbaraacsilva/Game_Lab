@@ -33,6 +33,7 @@ public class Game {
 	long lastFPS;
 	Texture texture;
 	Player p1, p2;
+	Map map;
 
 	public float getX() {
 		return x;
@@ -55,7 +56,7 @@ public class Game {
 		init();
 		getDelta(); // call once before loop to initialise lastFrame
 		lastFPS = getTime(); // call before loop to initialise fps timer
-		Map map = new Map(1600, 1200);
+		map = new Map(1600, 1184);
 		map.generateMap(); 
 		map.loadImages();
 
@@ -115,6 +116,12 @@ public class Game {
 		if (Mouse.isButtonDown(0)) {
 			x = Mouse.getX()%800;
 			y = (600 - Mouse.getY())%608;
+			
+			if (!map.getPositionMatrix()[(int) (x/32)][(int) (y/32)].isEmpty()) {
+				
+				
+				//aparece as coisas bonitas centradas nesse x/y
+			}
 		}
 			if (x < 0)x = 0;
 			if (y < 0)y = 0;

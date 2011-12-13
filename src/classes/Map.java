@@ -10,9 +10,11 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 
+
 public class Map {
 
 	private Position[][] positionMatrix;
+
 	private List<Texture> listOfTextures = new ArrayList<Texture>();
 	private Integer width;
 	private Integer height;
@@ -27,17 +29,23 @@ public class Map {
 		for (int i = 0; i < width/32; i++) 
 			for (int j = 0; j < height/32; j++) 
 				positionMatrix[i][j] = null;
-		positionMatrix[1][1] = new BasePosition();
 		for (int i = 0; i < width/32; i++) 
 				for (int j = 0; j < height/32; j++) 
-					if (positionMatrix[i][j] == null) 
+					if (positionMatrix[i][j] == null) {
 						positionMatrix[i][j] = new Position();
+						positionMatrix[i][j].setI(i);
+						positionMatrix[i][j].setJ(j);
+						positionMatrix[i][j].setSprite("grama.png");
+					}
+		positionMatrix[1][1] = new BasePosition();
+		positionMatrix[1][1].setSprite("house.gif");
 	}
 
 	public void loadImages() {
 		try {
 			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama.png")));
 			listOfTextures.add(TextureLoader.getTexture("gif", ResourceLoader.getResourceAsStream("house.gif")));
+			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama3.png")));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -105,5 +113,45 @@ public class Map {
 				GL11.glEnd();
 			}
 		}
-	}  
+	} 
+	
+	public List<Position> BFS(int i, int j) {
+		
+		int speed, auxI, auxJ;
+		List<Position> listOfPositions = new ArrayList<Position>();
+
+		listOfPositions.add(positionMatrix[i][j]);
+		speed = listOfPositions.get(0).getCharacter().getSpeed();
+		
+		for (Position l : listOfPositions) {
+			while (speed > 0) {
+				auxI = l.getI();
+				auxJ = l.getJ();
+				if (auxI-1 >= 0) {
+					if (positionMatrix[auxI-1][auxJ].getCharacter() != null) 
+						listOfPositions.add(positionMatrix[auxI-1][auxJ]);
+				}
+				if (auxI+1 < 1600/32) {
+					if (positionMatrix[auxI+1][auxJ].getCharacter() != null) 
+						listOfPositions.add(positionMatrix[auxI+1][auxJ]);
+				}
+				if (auxJ-1 >= 0) {
+					if (positionMatrix[auxI][auxJ-1].getCharacter() != null) 
+						listOfPositions.add(positionMatrix[auxI-1][auxJ]);
+				}
+				if (auxJ+1 < 1184/32) {
+					if (positionMatrix[auxI][auxJ+1].getCharacter() != null) 
+						listOfPositions.add(positionMatrix[auxI][auxJ+1]);
+				}
+				speed--;
+			}
+		}
+		
+		return listOfPositions;
+	}
+
+	public Position[][] getPositionMatrix() {
+		return positionMatrix;
+	}
+	
 }

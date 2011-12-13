@@ -7,7 +7,21 @@ public class Position {
 	protected Boolean empty = false; //tem/nao tem character nessa posicao
 	protected Character character;
 	protected String sprite;
+	protected int i;
+	protected int j;
 
+	public int getI() {
+		return i;
+	}
+	public void setI(int i) {
+		this.i = i;
+	}
+	public int getJ() {
+		return j;
+	}
+	public void setJ(int j) {
+		this.j = j;
+	}
 	public String getSprite() {
 		return sprite;
 	}
