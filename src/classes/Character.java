@@ -20,7 +20,7 @@ public class Character {
 	protected CharacterType type;
 	protected Double damage;
 	protected House house;
-	Texture texture;
+	protected Texture texture;
 
 	public House house() {
 		return house;

@@ -1,7 +1,6 @@
 package classes;
 
 import classes.Character;
-import classes.Character.CharacterType;
 
 public class Warrior extends Character {
 	private Double cost;

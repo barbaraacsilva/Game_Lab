@@ -45,7 +45,7 @@ public class Map {
 		try {
 			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama.png")));
 			listOfTextures.add(TextureLoader.getTexture("gif", ResourceLoader.getResourceAsStream("house.gif")));
-			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama3.png")));
+			//listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama3.png")));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
