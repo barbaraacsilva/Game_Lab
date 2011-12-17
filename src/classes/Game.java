@@ -3,6 +3,7 @@ package classes;
 import java.io.IOException;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -24,16 +25,23 @@ import classes.Map;
 
 public class Game {
 
+	/** posição do mouse*/
 	private float x = 0, y = 0;
-	/** position of quad */
+	
+	private int tela =0;
 	private int XLastPosition = 0;
 	private int YLastPosition = 0;
-	private long lastFrame;
-	private int fps;
-	long lastFPS;
+	
+	/**abscissa máxima do mapa*/
+	private int mapX = 1600;
+	/**coodernada do mapa*/
+	private int mapY = 1216;
+	
+	private Tempo tempo = new Tempo();
 	private Texture texture;
 	private Player p1;
 	private Map map;
+	private Menu menu;
 	private Character characterSelected;
 
 	public float getX() {
@@ -55,22 +63,31 @@ public class Game {
 	public void start() {
 		initGL(800, 608); // init OpenGL
 		init();
-		getDelta(); // call once before loop to initialise lastFrame
-		lastFPS = getTime(); // call before loop to initialise fps timer
-		map = new Map(1600, 1184);
+		tempo.getDelta(); // call once before loop to initialise lastFrame
+		tempo.lastFPS = tempo.getTime(); // call before loop to initialise fps timer
+		map = new Map(mapX, mapY);
 		map.generateMap();
 		map.loadImages();
+		menu = new Menu(800, 608);
+		menu.generateMenu();
+		menu.loadImages();
+		
 		setUp();
 
-		while (!Display.isCloseRequested()) {
-			int delta = getDelta();
+		while (!Display.isCloseRequested()){
+			int delta = tempo.getDelta();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			update(delta);
-			map.drawMap(x, y);
-
-			renderGL();
+			if(tela == 0)
+				menu.drawmenu();
+			else if (tela == 1)
+			{
+				map.drawMap(x, y);
+				renderGL();
+			}
+			
 			Display.update();
-			Display.sync(30);
+			Display.sync(60);
 		}
 		Display.destroy();
 	}
@@ -127,11 +144,31 @@ public class Game {
                         //aparece as coisas bonitas centradas nesse x/y
                 }
         }
+        	
+        while (Keyboard.next())
+        {
+		    if (Keyboard.getEventKeyState())
+		    {
+		        if (Keyboard.getEventKey() == Keyboard.KEY_SPACE)
+		        	if(tela == 1)
+		        		tela = 0;
+		        	else if (tela == 0)
+		        		tela = 1;
+		    }
+        }
+        
+        // ESC para sair
+        if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+		{
+			Display.destroy();
+			System.exit(0);
+		}
+        
                 if (x < 0)x = 0;
                 if (y < 0)y = 0;
-                if (x > 1600-32)x = 1600-32;
-                if (y > 1200-32)y = 1200-32;
-                updateFPS();
+                if (x > mapX-32)x = mapX-32;
+                if (y > mapY-32)y = mapY-32;
+               tempo. updateFPS();
 }
 	
 	/*public void update(int delta) {
@@ -174,39 +211,14 @@ public class Game {
 	}*/
 
 	/**
-	 * Calculate how many milliseconds have passed since last frame.
+	 * cria a janela.
 	 * 
-	 * @return milliseconds passed since last frame
-	 */
-	public int getDelta() {
-		long time = getTime();
-		int delta = (int) (time - lastFrame);
-		lastFrame = time;
-
-		return delta;
-	}
-
-	/**
-	 * Get the accurate system time
+	 * inicia uma janela e determina suas caratecristicas.
 	 * 
-	 * @return The system time in milliseconds
+	 * @param width tamanho do eixo horizontal
+	 * @param height tamanho do eixo vertical
 	 */
-	public long getTime() {
-		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-	}
-
-	/**
-	 * Calculate the FPS and set it in the title bar
-	 */
-	public void updateFPS() {
-		if (getTime() - lastFPS > 1000) {
-			Display.setTitle("FPS: " + fps);
-			fps = 0;
-			lastFPS += 1000;
-		}
-		fps++;
-	}
-
+	
 	private void initGL(int width, int height) {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
@@ -218,9 +230,7 @@ public class Game {
 		}
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-		// GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
+		// GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);acho que pode apagar
 		// enable alpha blending
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -243,23 +253,22 @@ public class Game {
 
 		GL11.glColor3f(0.5f, 0.5f, 1.0f);
 
-		GL11.glPushMatrix();
+		//GL11.glPushMatrix(); acho que pode apagar
 
 		x2 = (int) (x / 32) * 32;
 		y2 = (int) (y / 32) * 32;
 
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0, 0);
-		GL11.glVertex2f(x2, y2);
-		GL11.glTexCoord2f(1, 0);
-		GL11.glVertex2f(x2 + texture.getTextureWidth(), y2);
-		GL11.glTexCoord2f(1, 1);
-		GL11.glVertex2f(x2 + texture.getTextureWidth(),
-				y2 + texture.getTextureHeight());
-		GL11.glTexCoord2f(0, 1);
-		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
+			GL11.glTexCoord2f(0, 0);
+			GL11.glVertex2f(x2, y2);
+			GL11.glTexCoord2f(1, 0);
+			GL11.glVertex2f(x2 + texture.getTextureWidth(), y2);
+			GL11.glTexCoord2f(1, 1);
+			GL11.glVertex2f(x2 + texture.getTextureWidth(),y2 + texture.getTextureHeight());
+			GL11.glTexCoord2f(0, 1);
+			GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
 		GL11.glEnd();
-		GL11.glPopMatrix();
+		//GL11.glPopMatrix();acho que pode apagar
 		
 	}
 
@@ -267,8 +276,7 @@ public class Game {
 
 		try {
 			// load texture from PNG file
-			texture = TextureLoader.getTexture("png",
-					ResourceLoader.getResourceAsStream("cogumelo.png"));
+			texture = TextureLoader.getTexture("png",ResourceLoader.getResourceAsStream("cogumelo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
