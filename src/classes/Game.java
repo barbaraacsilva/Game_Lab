@@ -248,10 +248,8 @@ public class Game {
 
 		int x2, y2;
 
-		Color.white.bind();
 		texture.bind();
-
-		GL11.glColor3f(0.5f, 0.5f, 1.0f);
+		Color.white.bind();
 
 		//GL11.glPushMatrix(); acho que pode apagar
 
@@ -268,6 +266,8 @@ public class Game {
 			GL11.glTexCoord2f(0, 1);
 			GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
 		GL11.glEnd();
+		
+
 		//GL11.glPopMatrix();acho que pode apagar
 		
 	}
