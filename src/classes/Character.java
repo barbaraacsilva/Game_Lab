@@ -1,5 +1,7 @@
 package classes;
 
+import java.util.List;
+
 import org.newdawn.slick.opengl.Texture;
 
 public class Character {
@@ -66,6 +68,12 @@ public class Character {
 		this.healthPoints = healthPoints;
 	}
 	public void takeDamage(Double damage) {	
+	}
+	
+	public boolean canMove(List<Position> listOfPositions, int i, int j){
+		for (Position p : listOfPositions) 
+			if (p.getI() == j && p.getJ() == i) return true;	
+		return false;
 	}
 	
 }

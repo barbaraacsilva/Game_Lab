@@ -14,6 +14,12 @@ public class Position {
 		this.empty = true;
 	}
 
+	Position (int i, int j) {
+		this.i = i;
+		this.j = j;
+		this.empty = true;
+	}
+	
 	public int getI() {
 		return i;
 	}

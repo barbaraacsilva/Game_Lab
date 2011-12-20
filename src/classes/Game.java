@@ -1,9 +1,6 @@
 package classes;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -88,7 +85,6 @@ public class Game {
 			else if (tela == 1) {
 				map.drawMap(v, w);
 				map.showArea();
-				//renderGL2();
 				renderGL();
 			}
 
@@ -155,7 +151,7 @@ public class Game {
 			if(w<304)w=304;
 			if(w>mapY-304)w=mapY-304;			
 			
-			System.out.println(v +" " +w );
+//			System.out.println(v +" " +w );
 			
 			move();
 		}
@@ -184,18 +180,16 @@ public class Game {
 					}
 
 					else {
-						System.out.println("x clicado na ultima"
-								+ XLastPosition);
-						System.out.println("y clicado na ultima"
-								+ YLastPosition);
+//						System.out.println("x clicado na ultima"
+//								+ XLastPosition);
+//						System.out.println("y clicado na ultima"
+//								+ YLastPosition);
 						map.getPositionMatrix()[xPosition][yPosition]
 								.setCharacter(null);
-
-						System.out.println("Ol�, vamos ao teste: ");
-						System.out.println("Ele estah na posi��o " + xPosition
-								+ " / " + yPosition);
-						// gamecontroller.showarea(clickedIn): algo assim?
-						// mostra a area em que pode clicar
+//
+//						System.out.println("Ol�, vamos ao teste: ");
+//						System.out.println("Ele estah na posi��o " + xPosition
+//								+ " / " + yPosition);
 						map.calculateArea(xPosition, yPosition, map.getPositionMatrix()[xPosition][yPosition].getCharacter().getSpeed());						
 					}
 				} else {
@@ -205,8 +199,7 @@ public class Game {
 				}
 			} else {
 				if (xPosition == XLastPosition && yPosition == YLastPosition) {
-					System.out
-							.println("Heroi selecionado, clicou no mesmo lugar");
+					System.out.println("Heroi selecionado, clicou no mesmo lugar");
 				} else {
 					x = xMouse;
 					y = yMouse;
@@ -219,13 +212,16 @@ public class Game {
 					if (y > 1200 - 32)
 						y = 1200 - 32;
 					tempo.updateFPS();
-					System.out.println("Movi o carinha");
-					map.getPositionMatrix()[xPosition][yPosition]
-							.setCharacter(characterSelected);
-					XLastPosition = xPosition;
-					YLastPosition = yPosition;
-					characterSelected.setMoved(true);
-					characterSelected = null;
+					if (characterSelected.canMove(map.getListOfPositions(), xPosition, yPosition)) {
+						System.out.println("Movi o carinha");
+						map.getPositionMatrix()[xPosition][yPosition]
+								.setCharacter(characterSelected);
+						XLastPosition = xPosition;
+						YLastPosition = yPosition;
+						characterSelected.setMoved(true);
+						characterSelected = null;
+						map.getListOfPositions().clear(); //limpa lista de posicoes onde o player podia andar
+					} else System.out.println("Eu nao deveria me mexer!");
 				}
 			}
 		}

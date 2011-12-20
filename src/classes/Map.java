@@ -2,11 +2,7 @@ package classes;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import javax.crypto.spec.PSource;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
@@ -20,12 +16,16 @@ public class Map {
 	private Position[][] positionMatrix;
 
 	private List<Texture> listOfTextures = new ArrayList<Texture>();
-	List<Position> listOfPositions = new ArrayList<Position>();
+	private List<Position> listOfPositions = new ArrayList<Position>();
 
 	private Integer width;
 	private Integer height;
 	private int listSize = 0;
 	
+	public List<Position> getListOfPositions() {
+		return listOfPositions;
+	}
+
 	public Map(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -75,7 +75,8 @@ public class Map {
 	
 	public void drawMap(float x, float y) {
 		
-		GL11.glColor3f(0.8f,0.8f,0.8f);
+		Color.white.bind();
+		//GL11.glColor3f(0.8f,0.8f,0.8f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
 		int xmin = ((int)x-400)/32;
@@ -126,9 +127,9 @@ public class Map {
 	}
 	
 	public void showArea() {
-		
-		Color.white.bind();
+		//Color.white.bind();
 		int i, j;
+		listOfTextures.get(2).bind();
 		
 		for (Position p: listOfPositions) {
 			i = p.getI();
@@ -163,7 +164,8 @@ public class Map {
             if (!checkPosition(horizontal, vertical) == true) {
             	if (horizontal >= 0 && vertical >= 0) {
                     if (positionMatrix[horizontal][vertical].isEmpty()) {
-                    	listOfPositions.add(positionMatrix[horizontal][vertical]);
+                    	Position p = new Position(horizontal, vertical);
+                    	listOfPositions.add(p);
                     	listSize++;
                     	System.out.println("(" + horizontal + "," + vertical + ")");
                     }

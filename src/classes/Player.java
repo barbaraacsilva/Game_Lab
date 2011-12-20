@@ -11,7 +11,7 @@ public class Player {
 	private Boolean win;
 	private Double coins;
 	private Boolean turn;
-	private Integer numberOfSubBases;
+	//private Integer numberOfSubBases;
 	public Hero hero;
 	public Character.House house;
 	
