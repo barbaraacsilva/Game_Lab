@@ -5,8 +5,7 @@ import classes.Character;
 public class Warrior extends Character {
 	private Double cost;
 
-	public Warrior(CharacterType type) {
-		this.type = type;
+	public Warrior() {
 		this.cost = 100.0;
 	}
 	

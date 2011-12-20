@@ -30,21 +30,16 @@ public class Game {
 	private float v = 400, w = 300;
 
 	private int tela = 0;
-	private int XLastPosition = 0;
-	private int YLastPosition = 0;
-
-	/** abscissa máxima do mapa */
-	private int mapX = 1600;
-	/** coodernada do mapa */
-	private int mapY = 1216;
+	private int XLastPosition = 4;
+	private int YLastPosition = 7;
 
 	private Tempo tempo = new Tempo();
 	private Texture texture;
-	private Player p1;
-	private Map map;
 	private Menu menu;
 	private Character characterSelected;
-	
+
+	GameController gameController = new GameController();
+
 	public float getX() {
 		return x;
 	}
@@ -67,14 +62,12 @@ public class Game {
 		tempo.getDelta(); // call once before loop to initialise lastFrame
 		tempo.lastFPS = tempo.getTime(); // call before loop to initialise fps
 											// timer
-		map = new Map(mapX, mapY);
-		map.generateMap();
-		map.loadImages();
+		gameController.initialize();
+
 		menu = new Menu(800, 608);
 		menu.generateMenu();
 		menu.loadImages();
-
-		setUp();
+		gameController.setUp();
 
 		while (!Display.isCloseRequested()) {
 			int delta = tempo.getDelta();
@@ -83,92 +76,76 @@ public class Game {
 			if (tela == 0)
 				menu.drawmenu();
 			else if (tela == 1) {
-				map.drawMap(v, w);
-				map.showArea();
+				gameController.getMap().drawMap(v, w);
+				gameController.getMap().showArea();
 				renderGL();
 			}
 
 			Display.update();
-			Display.sync(60);
+			Display.sync(10);
 		}
 		Display.destroy();
 	}
 
-	private void setUp() {
-		p1 = new Player();
-		// p2 = new Player();
-		// escolhe novo jogo
-		// System.out.println("Escolha o heroi: red ou blue\n");
-		// Scanner sc = new Scanner(System.in);
-		p1.setHero(new Hero("red"));
-		p1.getHero().setSpeed(7);
-		// p2.setHero(new Hero("blue"));
-		// for (int i = 0; i < 1; i++) {
-		// p1.addCharacter(new Warrior(CharacterType.MELEE));
-		// p1.addCharacter(new Warrior(CharacterType.RANGED));
-		// p2.addCharacter(new Warrior(CharacterType.MELEE));
-		// p2.addCharacter(new Warrior(CharacterType.RANGED));
-
-		// }
-		map.getPositionMatrix()[0][0].setCharacter(p1.getHero());
-	}
-
-
-	public void update(int delta)
-	{
+	public void update(int delta) {
 
 		while (Keyboard.next()) {
-			if (Keyboard.getEventKeyState())
-			{
-				if (tela == 0)
-				{
+			if (Keyboard.getEventKeyState()) {
+				if (tela == 0) {
 					if (Keyboard.getEventKey() == Keyboard.KEY_SPACE)
 						tela = 1;
-					else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-					{
+					else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 						Display.destroy();
 						System.exit(0);
 					}
-				}
-				else if (tela == 1)
-				{
+				} else if (tela == 1) {
 					if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 						tela = 0;
 				}
 			}
 		}
-		
-		if(tela == 1)
-		{
-			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) v -= 0.5 * delta;
-			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) v += 0.5* delta;
-			
-			if (Keyboard.isKeyDown(Keyboard.KEY_UP)) w -= 0.5* delta;
-			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) w += 0.5* delta;
-			
-			if(v<400)v=400;
-			if(v>mapX-400)v=mapX-400;
-			if(w<304)w=304;
-			if(w>mapY-304)w=mapY-304;			
-			
-//			System.out.println(v +" " +w );
-			
+
+		if (tela == 1) {
+			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+				v -= 0.5 * delta;
+			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
+				v += 0.5 * delta;
+
+			if (Keyboard.isKeyDown(Keyboard.KEY_UP))
+				w -= 0.5 * delta;
+			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
+				w += 0.5 * delta;
+
+			int mapX = gameController.getMapX();
+			int mapY = gameController.getMapY();
+
+			if (v < 400)
+				v = 400;
+			if (v > mapX - 400)
+				v = mapX - 400;
+			if (w < 304)
+				w = 304;
+			if (w > mapY - 304)
+				w = mapY - 304;
+
+			// System.out.println(v +" " +w );
+
 			move();
 		}
 	}
+
 	/**
 	 * controla a movimentação.
 	 * 
 	 * mecanismos de seleção e movimentação do personagem usando o mouse.
 	 */
-	private void move()
-	{
+	private void move() {
 		if (Mouse.isButtonDown(0)) {
 			int xMouse = Mouse.getX() % 800;
 			int yMouse = (608 - Mouse.getY()) % 608;
 			int xPosition = (int) (xMouse / 32);
 			int yPosition = (int) (yMouse / 32);
-			Position clickedIn = map.getPositionMatrix()[xPosition][yPosition];
+			Position clickedIn = gameController.getMap().getPositionMatrix()[xPosition][yPosition];
 			if (characterSelected == null) {
 				if (!clickedIn.isEmpty()) {
 					characterSelected = clickedIn.getCharacter();
@@ -180,17 +157,25 @@ public class Game {
 					}
 
 					else {
-//						System.out.println("x clicado na ultima"
-//								+ XLastPosition);
-//						System.out.println("y clicado na ultima"
-//								+ YLastPosition);
-						map.getPositionMatrix()[xPosition][yPosition]
+						// System.out.println("x clicado na ultima"
+						// + XLastPosition);
+						// System.out.println("y clicado na ultima"
+						// + YLastPosition);
+						gameController.getMap().getPositionMatrix()[xPosition][yPosition]
 								.setCharacter(null);
-//
-//						System.out.println("Ol�, vamos ao teste: ");
-//						System.out.println("Ele estah na posi��o " + xPosition
-//								+ " / " + yPosition);
-						map.calculateArea(xPosition, yPosition, map.getPositionMatrix()[xPosition][yPosition].getCharacter().getSpeed());						
+						//
+						// System.out.println("Ol�, vamos ao teste: ");
+						// System.out.println("Ele estah na posi��o " +
+						// xPosition
+						// + " / " + yPosition);
+						gameController
+								.getMap()
+								.calculateArea(
+										xPosition,
+										yPosition,
+										gameController.getMap()
+												.getPositionMatrix()[xPosition][yPosition]
+												.getCharacter().getSpeed());
 					}
 				} else {
 					System.out
@@ -199,29 +184,32 @@ public class Game {
 				}
 			} else {
 				if (xPosition == XLastPosition && yPosition == YLastPosition) {
-					System.out.println("Heroi selecionado, clicou no mesmo lugar");
+					System.out
+							.println("Heroi selecionado, clicou no mesmo lugar");
 				} else {
-					x = xMouse;
-					y = yMouse;
-					if (x < 0)
-						x = 0;
-					if (y < 0)
-						y = 0;
-					if (x > 1600 - 32)
-						x = 1600 - 32;
-					if (y > 1200 - 32)
-						y = 1200 - 32;
-					tempo.updateFPS();
-					if (characterSelected.canMove(map.getListOfPositions(), xPosition, yPosition)) {
+					if (characterSelected.canMove(gameController.getMap()
+							.getListOfPositions(), xPosition, yPosition)) {
+						x = xMouse;
+						y = yMouse;
+						if (x < 0)
+							x = 0;
+						if (y < 0)
+							y = 0;
+						if (x > 1600 - 32)
+							x = 1600 - 32;
+						if (y > 1200 - 32)
+							y = 1200 - 32;
+						tempo.updateFPS();
 						System.out.println("Movi o carinha");
-						map.getPositionMatrix()[xPosition][yPosition]
+						gameController.getMap().getPositionMatrix()[xPosition][yPosition]
 								.setCharacter(characterSelected);
 						XLastPosition = xPosition;
 						YLastPosition = yPosition;
 						characterSelected.setMoved(true);
 						characterSelected = null;
-						map.getListOfPositions().clear(); //limpa lista de posicoes onde o player podia andar
-					} else System.out.println("Eu nao deveria me mexer!");
+						gameController.getMap().getListOfPositions().clear();
+					} else
+						System.out.println("Eu nao deveria me mexer!");
 				}
 			}
 		}
@@ -239,6 +227,10 @@ public class Game {
 	 */
 
 	private void initGL(int width, int height) {
+
+		x = 128;
+		y = 224;
+
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.create();
@@ -286,31 +278,8 @@ public class Game {
 		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
 		GL11.glEnd();
-		
+
 		GL11.glPopMatrix();
-	}
-	
-	public void renderGL2() {
-
-		float x2, y2;
-
-		texture.bind();
-		Color.white.bind();
-
-		// GL11.glPushMatrix(); acho que pode apagar
-
-		x2 = v%800;
-		y2 = w%608;
-
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0, 0);
-		GL11.glVertex2f(x2, y2);
-		GL11.glTexCoord2f(1, 0);
-		GL11.glVertex2f(x2 + texture.getTextureWidth(), y2);
-		GL11.glTexCoord2f(1, 1);
-		GL11.glVertex2f(x2 + texture.getTextureWidth(),y2 + texture.getTextureHeight());
-		GL11.glTexCoord2f(0, 1);
-		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
 	}
 
 	public void init() {

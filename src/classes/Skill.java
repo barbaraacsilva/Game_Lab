@@ -5,12 +5,12 @@ import classes.Effect;
 
 public class Skill {
 	private String name;
-	private Double damage;
+	private int damage;
 	private Integer area;
 	private Integer manaCost;
 	private Effect.TypeOfEffect effect;
 
-	public Skill(String name, Double damage, Integer area, Integer manaCost,
+	public Skill(String name, int damage, Integer area, Integer manaCost,
 			Effect.TypeOfEffect effect) {
 		this.name = name;
 		this.damage = damage;
@@ -35,11 +35,11 @@ public class Skill {
 		this.name = name;
 	}
 
-	public Double getDamage() {
+	public int getDamage() {
 		return damage;
 	}
 
-	public void setDamage(Double damage) {
+	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 
