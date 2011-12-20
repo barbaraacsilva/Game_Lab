@@ -1,6 +1,9 @@
 package classes;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -44,7 +47,7 @@ public class Game {
 	private Map map;
 	private Menu menu;
 	private Character characterSelected;
-
+	
 	public float getX() {
 		return x;
 	}
@@ -83,7 +86,9 @@ public class Game {
 			if (tela == 0)
 				menu.drawmenu();
 			else if (tela == 1) {
-				map.drawMap(v, w);
+				map.drawMap(x, y);
+				map.showArea();
+
 				renderGL();
 			}
 
@@ -100,6 +105,7 @@ public class Game {
 		// System.out.println("Escolha o heroi: red ou blue\n");
 		// Scanner sc = new Scanner(System.in);
 		p1.setHero(new Hero("red"));
+		p1.getHero().setSpeed(7);
 		// p2.setHero(new Hero("blue"));
 		// for (int i = 0; i < 1; i++) {
 		// p1.addCharacter(new Warrior(CharacterType.MELEE));
@@ -195,7 +201,7 @@ public class Game {
 	{
 		if (Mouse.isButtonDown(0)) {
 			int xMouse = Mouse.getX() % 800;
-			int yMouse = (600 - Mouse.getY()) % 608;
+			int yMouse = (608 - Mouse.getY()) % 608;
 			int xPosition = (int) (xMouse / 32);
 			int yPosition = (int) (yMouse / 32);
 			Position clickedIn = map.getPositionMatrix()[xPosition][yPosition];
@@ -222,6 +228,7 @@ public class Game {
 								+ " / " + yPosition);
 						// gamecontroller.showarea(clickedIn): algo assim?
 						// mostra a area em que pode clicar
+						map.calculateArea(xPosition, yPosition, map.getPositionMatrix()[xPosition][yPosition].getCharacter().getSpeed());						
 					}
 				} else {
 					System.out
@@ -232,9 +239,7 @@ public class Game {
 				if (xPosition == XLastPosition && yPosition == YLastPosition) {
 					System.out
 							.println("Heroi selecionado, clicou no mesmo lugar");
-
 				} else {
-
 					x = xMouse;
 					y = yMouse;
 					if (x < 0)
@@ -301,7 +306,7 @@ public class Game {
 		texture.bind();
 		Color.white.bind();
 
-		// GL11.glPushMatrix(); acho que pode apagar
+		GL11.glPushMatrix();
 
 		x2 = (int) (x / 32) * 32;
 		y2 = (int) (y / 32) * 32;
@@ -317,16 +322,9 @@ public class Game {
 		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
 		GL11.glEnd();
-/*<<<<<<< HEAD
 		
-
-		//GL11.glPopMatrix();acho que pode apagar
-		
-=======
-		// GL11.glPopMatrix();acho que pode apagar
-
->>>>>>> 4db44e44e19e8edee2e4b30bc81005d43bfdeb76
-*/	}
+		GL11.glPopMatrix();
+	}
 
 	public void init() {
 
