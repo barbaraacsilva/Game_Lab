@@ -26,6 +26,8 @@ public class Game {
 
 	/** posição do mouse */
 	private float x = 0, y = 0;
+	/** posição das setas */
+	private float v = 799, w = 607;
 
 	private int tela = 0;
 	private int XLastPosition = 0;
@@ -81,7 +83,7 @@ public class Game {
 			if (tela == 0)
 				menu.drawmenu();
 			else if (tela == 1) {
-				map.drawMap(x, y);
+				map.drawMap(v, w);
 				renderGL();
 			}
 
@@ -90,27 +92,6 @@ public class Game {
 		}
 		Display.destroy();
 	}
-
-	// public void updateScreen(int delta)
-	// {
-	//
-	// if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) x -= 0.5 * delta;
-	// if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) x += 0.5* delta;
-	//
-	// if (Keyboard.isKeyDown(Keyboard.KEY_UP)) y -= 0.5* delta;
-	// if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) y += 0.5* delta;
-	//
-	// if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-	// {
-	// Display.destroy();
-	// System.exit(0);
-	// }
-	// if (x < 0)x = 0;
-	// if (y < 0)y = 0;
-	//
-	// if (x > 1600-32)x = 1600-32;
-	// if (y > 1200-32)y = 1200-32;
-	// }
 
 	private void setUp() {
 		p1 = new Player();
@@ -170,24 +151,48 @@ public class Game {
 	// tempo. updateFPS();
 	// }
 
-	public void update(int delta) {
+	public void update(int delta)
+	{
 
 		while (Keyboard.next()) {
-			if (Keyboard.getEventKeyState()) {
-				if (Keyboard.getEventKey() == Keyboard.KEY_SPACE)
-					if (tela == 1)
-						tela = 0;
-					else if (tela == 0)
+			if (Keyboard.getEventKeyState())
+			{
+				if (tela == 0)
+				{
+					if (Keyboard.getEventKey() == Keyboard.KEY_SPACE)
 						tela = 1;
+					else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+					{
+						Display.destroy();
+						System.exit(0);
+					}
+				}
+				else if (tela == 1)
+				{
+					if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+						tela = 0;
+				}
 			}
 		}
-
-		// ESC para sair
-		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-			Display.destroy();
-			System.exit(0);
+		
+		if(tela == 1)
+		{
+			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) v -= 0.5 * delta;
+			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) v += 0.5* delta;
+			
+			if (Keyboard.isKeyDown(Keyboard.KEY_UP)) w -= 0.5* delta;
+			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) w += 0.5* delta;
+			
+			move();
 		}
-
+	}
+	/**
+	 * controla a movimentação.
+	 * 
+	 * mecanismos de seleção e movimentação do personagem usando o mouse.
+	 */
+	private void move()
+	{
 		if (Mouse.isButtonDown(0)) {
 			int xMouse = Mouse.getX() % 800;
 			int yMouse = (600 - Mouse.getY()) % 608;

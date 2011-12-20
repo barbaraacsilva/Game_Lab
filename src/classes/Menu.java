@@ -128,7 +128,7 @@ public class Menu
 			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama.png")));
 			listOfTextures.add(TextureLoader.getTexture("jpg", ResourceLoader.getResourceAsStream("stone.jpg")));
 			listOfTextures.add(TextureLoader.getTexture("jpg", ResourceLoader.getResourceAsStream("gold.jpg")));
-			listOfTextures.add(TextureLoader.getTexture("jpg", ResourceLoader.getResourceAsStream("espaço.jpg")));
+			listOfTextures.add(TextureLoader.getTexture("jpg", ResourceLoader.getResourceAsStream("espaco.jpg")));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
