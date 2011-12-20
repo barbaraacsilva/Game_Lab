@@ -75,7 +75,7 @@ public class Map {
 	
 	public void drawMap(float x, float y) {
 		
-		Color.white.bind();
+		GL11.glColor3f(0.8f,0.8f,0.8f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
 		int xmin;
@@ -127,7 +127,7 @@ public class Map {
 	
 	public void showArea() {
 		
-		listOfTextures.get(2).bind();
+		Color.white.bind();
 		int i, j;
 		
 		for (Position p: listOfPositions) {

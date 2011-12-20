@@ -138,6 +138,7 @@ public class Menu
 	
 	public void drawmenu()
 	{	
+		
 		for(int i = 0; i < width/32; i++)
 		{
 			for(int j = 0; j < height/32; j++)
@@ -163,11 +164,11 @@ public class Menu
 				else if (positionMatrix[i][j] instanceof LetraPosition)
 				{
 					listOfTextures.get(2).bind();
-					Color.lightGray.bind();
+					Color.white.bind();
 				}
 				else if (positionMatrix[i][j] instanceof Position)
 				{
-					Color.white.bind();
+					GL11.glColor3f(0.8f,0.8f,0.8f);
 					listOfTextures.get(0).bind();
 				}
 				
@@ -185,7 +186,7 @@ public class Menu
 				GL11.glEnd();		
 			}
 		}
-		Color.white.bind();
+		GL11.glColor3f(0.8f,0.8f,0.8f);
 		listOfTextures.get(3).bind();
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glTexCoord2f(0,0);
