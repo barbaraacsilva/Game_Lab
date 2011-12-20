@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Game_Lab/lib/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Game_Lab/lib/linux"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="slick-util.jar"/>

@@ -30,7 +30,7 @@ public class Game {
 	/** posição do mouse */
 	private float x = 0, y = 0;
 	/** posição das setas */
-	private float v = 799, w = 607;
+	private float v = 400, w = 300;
 
 	private int tela = 0;
 	private int XLastPosition = 0;
@@ -86,9 +86,9 @@ public class Game {
 			if (tela == 0)
 				menu.drawmenu();
 			else if (tela == 1) {
-				map.drawMap(x, y);
+				map.drawMap(v, w);
 				map.showArea();
-
+				renderGL2();
 				renderGL();
 			}
 
@@ -117,45 +117,6 @@ public class Game {
 		map.getPositionMatrix()[0][0].setCharacter(p1.getHero());
 	}
 
-	// public void update(int delta) {
-	//
-	// //Fullscreen fe = new Fullscreen();
-	// if (Mouse.isButtonDown(0)) {
-	// x = Mouse.getX()%800;
-	// y = (600 - Mouse.getY())%608;
-	//
-	// if (!map.getPositionMatrix()[(int) (x/32)][(int) (y/32)].isEmpty()) {
-	//
-	//
-	// //aparece as coisas bonitas centradas nesse x/y
-	// }
-	// }
-	//
-	// while (Keyboard.next())
-	// {
-	// if (Keyboard.getEventKeyState())
-	// {
-	// if (Keyboard.getEventKey() == Keyboard.KEY_SPACE)
-	// if(tela == 1)
-	// tela = 0;
-	// else if (tela == 0)
-	// tela = 1;
-	// }
-	// }
-	//
-	// // ESC para sair
-	// if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-	// {
-	// Display.destroy();
-	// System.exit(0);
-	// }
-	//
-	// if (x < 0)x = 0;
-	// if (y < 0)y = 0;
-	// if (x > mapX-32)x = mapX-32;
-	// if (y > mapY-32)y = mapY-32;
-	// tempo. updateFPS();
-	// }
 
 	public void update(int delta)
 	{
@@ -188,6 +149,13 @@ public class Game {
 			
 			if (Keyboard.isKeyDown(Keyboard.KEY_UP)) w -= 0.5* delta;
 			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) w += 0.5* delta;
+			
+			if(v<0)v=0;
+			if(v>mapX-32)v=mapX-32;
+			if(w<0)w=0;
+			if(w>mapY-32)w=mapY-32;			
+			
+			System.out.println(v +" " +w );
 			
 			move();
 		}
@@ -324,6 +292,29 @@ public class Game {
 		GL11.glEnd();
 		
 		GL11.glPopMatrix();
+	}
+	
+	public void renderGL2() {
+
+		float x2, y2;
+
+		texture.bind();
+		Color.white.bind();
+
+		// GL11.glPushMatrix(); acho que pode apagar
+
+		x2 = v%800;
+		y2 = w%608;
+
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 0);
+		GL11.glVertex2f(x2, y2);
+		GL11.glTexCoord2f(1, 0);
+		GL11.glVertex2f(x2 + texture.getTextureWidth(), y2);
+		GL11.glTexCoord2f(1, 1);
+		GL11.glVertex2f(x2 + texture.getTextureWidth(),y2 + texture.getTextureHeight());
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
 	}
 
 	public void init() {
