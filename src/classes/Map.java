@@ -42,7 +42,7 @@ public class Map {
 				positionMatrix[i][j].setJ(j);
 				positionMatrix[i][j].setSprite("grama.png");		
 			}	
-		for (int i = 0; i < width/32; i+=49) 
+		for (int i = 0; i < width/32; i+=10/*31*/) 
 			for (int j = 0; j < height/32; j++) 
 			{
 				positionMatrix[i][j] = new BasePosition();
@@ -52,7 +52,7 @@ public class Map {
 			}
 		
 		for (int i = 0; i < width/32; i++) 
-			for (int j = 0; j <= height/32+1; j+=37) 
+			for (int j = 0; j <= height/32+1; j+=10/*37*/) 
 			{
 				positionMatrix[i][j] = new BasePosition();
 				positionMatrix[i][j].setI(i);
@@ -78,14 +78,14 @@ public class Map {
 		GL11.glColor3f(0.8f,0.8f,0.8f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
-		int xmin;
-		int ymin;
+		int xmin = ((int)x-400)/32;
+		int ymin = ((int)y-304)/32;
 		
-		if (x< 800) xmin = 0;
+		/*if (x< 800) xmin = 0;
 		else xmin = 25;
 		if (y < 608) ymin = 0;
 		else ymin = 19;
-		
+		*/
 		for(int i = xmin, k = 0;i < xmin+25; i++, k++) {
 			for(int j = ymin, l = 0; j < ymin+19; j++, l++) {
 				if (positionMatrix[i][j] instanceof BasePosition) 

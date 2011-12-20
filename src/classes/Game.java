@@ -88,7 +88,7 @@ public class Game {
 			else if (tela == 1) {
 				map.drawMap(v, w);
 				map.showArea();
-				renderGL2();
+				//renderGL2();
 				renderGL();
 			}
 
@@ -150,10 +150,10 @@ public class Game {
 			if (Keyboard.isKeyDown(Keyboard.KEY_UP)) w -= 0.5* delta;
 			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) w += 0.5* delta;
 			
-			if(v<0)v=0;
-			if(v>mapX-32)v=mapX-32;
-			if(w<0)w=0;
-			if(w>mapY-32)w=mapY-32;			
+			if(v<400)v=400;
+			if(v>mapX-400)v=mapX-400;
+			if(w<304)w=304;
+			if(w>mapY-304)w=mapY-304;			
 			
 			System.out.println(v +" " +w );
 			
