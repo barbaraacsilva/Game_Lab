@@ -1,0 +1,193 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x0af68c2c, pid=5516, tid=5264
+#
+# JRE version: 6.0_30-b12
+# Java VM: Java HotSpot(TM) Client VM (20.5-b03 mixed mode, sharing windows-x86 )
+# Problematic frame:
+# C  [ialmgdev.dll+0x18c2c]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x003a6800):  JavaThread "main" [_thread_in_native, id=5264, stack(0x008c0000,0x00910000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x0003501d
+
+Registers:
+EAX=0x0019f448, EBX=0x00105500, ECX=0x0019f430, EDX=0x00000000
+ESP=0x0090f9c0, EBP=0x00000000, ESI=0x00105800, EDI=0x00035001
+EIP=0x0af68c2c, EFLAGS=0x00010206
+
+Top of Stack: (sp=0x0090f9c0)
+0x0090f9c0:   00000400 00105800 0090fb10 00000000
+0x0090f9d0:   00035001 00000000 0001cb2e 00000000
+0x0090f9e0:   00000000 0ac79dfe 00105800 00105800
+0x0090f9f0:   0ac77994 00100b50 0ae224ab 7f010f77
+0x0090fa00:   000aff80 0090fa24 7c910385 5f180000
+0x0090fa10:   00000000 0090fae0 7c917c02 5f180000
+0x0090fa20:   0090fa86 0090fa80 0090fa80 0090fa86
+0x0090fa30:   7c917ca7 7c97e174 7c917c51 77e51b88 
+
+Instructions: (pc=0x0af68c2c)
+0x0af68c0c:   08 89 50 08 89 50 04 ff 0b 8b 4b 08 3b ca 89 50
+0x0af68c1c:   08 89 48 04 74 03 89 41 08 89 43 08 eb 02 33 ff
+0x0af68c2c:   8a 4f 1c 84 c9 8b 44 24 10 c6 47 14 01 89 47 18
+0x0af68c3c:   75 07 c6 47 1c 01 89 47 20 80 7f 04 01 75 74 39 
+
+
+Register to memory mapping:
+
+EAX=0x0019f448 is an unknown value
+EBX=0x00105500 is an unknown value
+ECX=0x0019f430 is an unknown value
+EDX=0x00000000 is an unknown value
+ESP=0x0090f9c0 is pointing into the stack for thread: 0x003a6800
+EBP=0x00000000 is an unknown value
+ESI=0x00105800 is an unknown value
+EDI=0x00035001 is an unknown value
+
+
+Stack: [0x008c0000,0x00910000],  sp=0x0090f9c0,  free space=318k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [ialmgdev.dll+0x18c2c]
+
+[error occurred during error reporting (printing native stack), id 0xc0000005]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  org.lwjgl.opengl.WindowsContextImplementation.nSwapBuffers(Ljava/nio/ByteBuffer;)V+0
+j  org.lwjgl.opengl.WindowsContextImplementation.swapBuffers()V+35
+j  org.lwjgl.opengl.ContextGL.swapBuffers()V+3
+j  org.lwjgl.opengl.DrawableGL.swapBuffers()V+0
+j  org.lwjgl.opengl.Display.swapBuffers()V+39
+j  org.lwjgl.opengl.Display.update(Z)V+44
+j  org.lwjgl.opengl.Display.update()V+1
+j  classes.Game.start()V+160
+j  classes.TestMain.main([Ljava/lang/String;)V+7
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0b150800 JavaThread "AWT-Windows" daemon [_thread_in_native, id=5172, stack(0x0b3f0000,0x0b440000)]
+  0x0b128400 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=4600, stack(0x0b350000,0x0b3a0000)]
+  0x02b51800 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=4440, stack(0x02dc0000,0x02e10000)]
+  0x02b42c00 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=4592, stack(0x02d70000,0x02dc0000)]
+  0x02b41400 JavaThread "Attach Listener" daemon [_thread_blocked, id=1884, stack(0x02d20000,0x02d70000)]
+  0x02b40000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=1248, stack(0x02cd0000,0x02d20000)]
+  0x02b3bc00 JavaThread "Finalizer" daemon [_thread_blocked, id=3144, stack(0x02c80000,0x02cd0000)]
+  0x02b37000 JavaThread "Reference Handler" daemon [_thread_blocked, id=4696, stack(0x02c30000,0x02c80000)]
+=>0x003a6800 JavaThread "main" [_thread_in_native, id=5264, stack(0x008c0000,0x00910000)]
+
+Other Threads:
+  0x02afa400 VMThread [stack: 0x02be0000,0x02c30000] [id=5444]
+  0x02b53800 WatcherThread [stack: 0x02e10000,0x02e60000] [id=4264]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 4864K, used 3904K [0x22990000, 0x22ed0000, 0x27d90000)
+  eden space 4352K,  77% used [0x22990000, 0x22ce03b8, 0x22dd0000)
+  from space 512K, 100% used [0x22e50000, 0x22ed0000, 0x22ed0000)
+  to   space 512K,   0% used [0x22dd0000, 0x22dd0000, 0x22e50000)
+ tenured generation   total 10752K, used 223K [0x27d90000, 0x28810000, 0x32590000)
+   the space 10752K,   2% used [0x27d90000, 0x27dc7ca0, 0x27dc7e00, 0x28810000)
+ compacting perm gen  total 12288K, used 1730K [0x32590000, 0x33190000, 0x36590000)
+   the space 12288K,  14% used [0x32590000, 0x32740930, 0x32740a00, 0x33190000)
+    ro space 10240K,  51% used [0x36590000, 0x36abda30, 0x36abdc00, 0x36f90000)
+    rw space 12288K,  55% used [0x36f90000, 0x37629b50, 0x37629c00, 0x37b90000)
+
+Code Cache  [0x00910000, 0x009d0000, 0x02910000)
+ total_blobs=369 nmethods=139 adapters=166 free_code_cache=32800576 largest_free_block=0
+
+Dynamic libraries:
+0x00400000 - 0x00425000 	C:\Arquivos de programas\Java\jre6\bin\javaw.exe
+0x7c900000 - 0x7c9b6000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c900000 	C:\WINDOWS\system32\kernel32.dll
+0x77f50000 - 0x77ffb000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77db0000 - 0x77e43000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77f20000 - 0x77f31000 	C:\WINDOWS\system32\Secur32.dll
+0x7e360000 - 0x7e3f1000 	C:\WINDOWS\system32\USER32.dll
+0x77e50000 - 0x77e99000 	C:\WINDOWS\system32\GDI32.dll
+0x76360000 - 0x7637d000 	C:\WINDOWS\system32\IMM32.DLL
+0x7c340000 - 0x7c396000 	C:\Arquivos de programas\Java\jre6\bin\msvcr71.dll
+0x6d7f0000 - 0x6da9f000 	C:\Arquivos de programas\Java\jre6\bin\client\jvm.dll
+0x76b20000 - 0x76b4e000 	C:\WINDOWS\system32\WINMM.dll
+0x6d7a0000 - 0x6d7ac000 	C:\Arquivos de programas\Java\jre6\bin\verify.dll
+0x6d320000 - 0x6d33f000 	C:\Arquivos de programas\Java\jre6\bin\java.dll
+0x6d7e0000 - 0x6d7ef000 	C:\Arquivos de programas\Java\jre6\bin\zip.dll
+0x10000000 - 0x10073000 	C:\eclipse\bacs\Game_Lab\lib\windows\lwjgl.dll
+0x773b0000 - 0x774b3000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.6028_x-ww_61e65202\COMCTL32.dll
+0x77bf0000 - 0x77c48000 	C:\WINDOWS\system32\msvcrt.dll
+0x77ea0000 - 0x77f16000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x5f180000 - 0x5f24c000 	C:\WINDOWS\system32\OPENGL32.dll
+0x5b410000 - 0x5b431000 	C:\WINDOWS\system32\GLU32.dll
+0x73710000 - 0x7375b000 	C:\WINDOWS\system32\DDRAW.dll
+0x73b70000 - 0x73b76000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x77be0000 - 0x77be8000 	C:\WINDOWS\system32\VERSION.dll
+0x5b1c0000 - 0x5b1f8000 	C:\WINDOWS\system32\uxtheme.dll
+0x648b0000 - 0x648be000 	C:\Documents and Settings\All Users\Dados de aplicativos\Real\RealPlayer\BrowserRecordPlugin\Chrome\Hook\rpchromebrowserrecordhelper.dll
+0x78520000 - 0x785c3000 	C:\WINDOWS\WinSxS\x86_Microsoft.VC90.CRT_1fc8b3b9a1e18e3b_9.0.30729.1_x-ww_6f74963e\MSVCR90.dll
+0x7c9c0000 - 0x7d1de000 	C:\WINDOWS\system32\SHELL32.dll
+0x78480000 - 0x7850e000 	C:\WINDOWS\WinSxS\x86_Microsoft.VC90.CRT_1fc8b3b9a1e18e3b_9.0.30729.1_x-ww_6f74963e\MSVCP90.dll
+0x746e0000 - 0x7472c000 	C:\WINDOWS\system32\MSCTF.dll
+0x75290000 - 0x752be000 	C:\WINDOWS\system32\msctfime.ime
+0x774c0000 - 0x775fe000 	C:\WINDOWS\system32\ole32.dll
+0x0ac70000 - 0x0aea3000 	C:\WINDOWS\system32\ialmgicd.dll
+0x0af50000 - 0x0afd0000 	C:\WINDOWS\system32\ialmgdev.dll
+0x73ae0000 - 0x73af5000 	C:\WINDOWS\system32\mscms.dll
+0x72fb0000 - 0x72fd6000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x5acf0000 - 0x5ad31000 	C:\WINDOWS\system32\icm32.dll
+0x6d000000 - 0x6d14c000 	C:\Arquivos de programas\Java\jre6\bin\awt.dll
+0x68000000 - 0x68036000 	C:\WINDOWS\system32\rsaenh.dll
+0x769a0000 - 0x76a55000 	C:\WINDOWS\system32\USERENV.dll
+0x5bcb0000 - 0x5bd05000 	C:\WINDOWS\system32\netapi32.dll
+0x6d600000 - 0x6d613000 	C:\Arquivos de programas\Java\jre6\bin\net.dll
+0x71a70000 - 0x71a87000 	C:\WINDOWS\system32\WS2_32.dll
+0x71a60000 - 0x71a68000 	C:\WINDOWS\system32\WS2HELP.dll
+0x71a10000 - 0x71a50000 	C:\WINDOWS\System32\mswsock.dll
+0x76f00000 - 0x76f27000 	C:\WINDOWS\system32\DNSAPI.dll
+0x76d40000 - 0x76d59000 	C:\WINDOWS\system32\iphlpapi.dll
+0x76f90000 - 0x76f98000 	C:\WINDOWS\System32\winrnr.dll
+0x76f40000 - 0x76f6d000 	C:\WINDOWS\system32\WLDAP32.dll
+0x76fa0000 - 0x76fa6000 	C:\WINDOWS\system32\rasadhlp.dll
+0x6d230000 - 0x6d27f000 	C:\Arquivos de programas\Java\jre6\bin\fontmanager.dll
+0x6d440000 - 0x6d465000 	C:\Arquivos de programas\Java\jre6\bin\jpeg.dll
+0x6d170000 - 0x6d19f000 	C:\Arquivos de programas\Java\jre6\bin\cmm.dll
+0x76bd0000 - 0x76bdb000 	C:\WINDOWS\system32\PSAPI.DLL
+0x59ea0000 - 0x59f41000 	C:\WINDOWS\system32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -Djava.library.path=C:\eclipse\bacs\Game_Lab\lib\windows -Dfile.encoding=Cp1252 
+java_command: classes.TestMain
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:/Arquivos de programas/Java/jre6/bin/client;C:/Arquivos de programas/Java/jre6/bin;C:/Arquivos de programas/Java/jre6/lib/i386;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\eclipse;
+USERNAME=Itautec
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 13 Stepping 6, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 1 (1 cores per cpu, 1 threads per core) family 6 model 13 stepping 6, cmov, cx8, fxsr, mmx, sse, sse2
+
+Memory: 4k page, physical 1031536k(119444k free), swap 2484096k(1176652k free)
+
+vm_info: Java HotSpot(TM) Client VM (20.5-b03) for windows-x86 JRE (1.6.0_30-b12), built on Nov 10 2011 01:51:00 by "java_re" with MS VC++ 7.1 (VS2003)
+
+time: Tue Dec 20 18:07:37 2011
+elapsed time: 136 seconds
+
