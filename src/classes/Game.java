@@ -11,12 +11,10 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
-import classes.Player;
 import classes.Character;
-import classes.Map;
 
 /**
- * @author caio, vinicius, luciana, barbara
+ * @author Caio, Vinicius, Luciana, Barbara
  * 
  *         Control everything for graphics.
  * 
@@ -149,33 +147,30 @@ public class Game {
 			if (characterSelected == null) {
 				if (!clickedIn.isEmpty()) {
 					characterSelected = clickedIn.getCharacter();
-					if (characterSelected.isMoved()) {
-						System.out
-								.println("Esse heroi jah se moveu neste turno");
-						characterSelected = null;
-						return;
-					}
+					if (this.gameController.getPlayerOfTheTurn().getHouse() == characterSelected
+							.getHouse())
+						if (characterSelected.isMoved()) {
+							System.out
+									.println("Esse heroi jah se moveu neste turno");
+							characterSelected = null;
+							return;
+						}
 
+						else {
+							gameController.getMap().getPositionMatrix()[xPosition][yPosition]
+									.setCharacter(null);
+							gameController
+									.getMap()
+									.calculateArea(
+											xPosition,
+											yPosition,
+											gameController.getMap()
+													.getPositionMatrix()[xPosition][yPosition]
+													.getCharacter().getSpeed());
+						}
 					else {
-						// System.out.println("x clicado na ultima"
-						// + XLastPosition);
-						// System.out.println("y clicado na ultima"
-						// + YLastPosition);
-						gameController.getMap().getPositionMatrix()[xPosition][yPosition]
-								.setCharacter(null);
-						//
-						// System.out.println("Ol�, vamos ao teste: ");
-						// System.out.println("Ele estah na posi��o " +
-						// xPosition
-						// + " / " + yPosition);
-						gameController
-								.getMap()
-								.calculateArea(
-										xPosition,
-										yPosition,
-										gameController.getMap()
-												.getPositionMatrix()[xPosition][yPosition]
-												.getCharacter().getSpeed());
+						System.out.println("Nao eh seu turno");
+						return;
 					}
 				} else {
 					System.out
@@ -200,9 +195,9 @@ public class Game {
 						if (y > 1200 - 32)
 							y = 1200 - 32;
 						tempo.updateFPS();
-						System.out.println("Movi o carinha");
 						gameController.getMap().getPositionMatrix()[xPosition][yPosition]
 								.setCharacter(characterSelected);
+						gameController.changeTurn();
 						XLastPosition = xPosition;
 						YLastPosition = yPosition;
 						characterSelected.setMoved(true);

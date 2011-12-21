@@ -9,12 +9,13 @@ public class Player {
 	private Integer number;
 	private String name;
 	private Boolean win;
-	private Double coins;
-	private Boolean turn;
-	//private Integer numberOfSubBases;
 	public Hero hero;
-	public Character.House house;
+	private Character.House house;
 	
+	
+	public Character.House getHouse() {
+		return house;
+	}
 	private Collection<Character> Army = new ArrayList<Character>();
 	
 	public Hero getHero() {
@@ -41,18 +42,6 @@ public class Player {
 	}
 	public void setWin(Boolean win) {
 		this.win = win;
-	}
-	public Double getCoins() {
-		return coins;
-	}
-	public void setCoins(Double coins) {
-		this.coins = coins;
-	}
-	public Boolean isTurn() {
-		return turn;
-	}
-	public void setTurn(Boolean turn) {
-		this.turn = turn;
 	}
 	public Collection<Character> getArmy() {
 		return Army;
