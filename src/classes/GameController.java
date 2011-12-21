@@ -78,9 +78,13 @@ public class GameController {
 	
 	
 	public void changeTurn() {
-		if (this.playerOfTheTurn.equals(p1))
+		if (this.playerOfTheTurn.equals(p1)) {
 			setPlayerOfTheTurn(p2);
-		else
+			p1.getHero().setMoved(false);
+		}
+		else {
 			setPlayerOfTheTurn(p1);
+			p2.getHero().setMoved(false);
+		}		
 	}
 }

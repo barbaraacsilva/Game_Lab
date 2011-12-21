@@ -26,6 +26,10 @@ public class Map {
 	private Integer height;
 	private int listSize = 0;
 	
+	public void setListSize(int listSize) {
+		this.listSize = listSize;
+	}
+
 	public List<Position> getListOfPositions() {
 		return listOfPositions;
 	}

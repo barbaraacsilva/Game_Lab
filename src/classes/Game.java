@@ -1,20 +1,12 @@
 package classes;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
-import classes.Character.House;
+
 
 /**
  * @author Caio, Vinicius, Luciana, Barbara
@@ -35,7 +27,6 @@ public class Game {
 	private int YLastPosition = 4;
 
 	private Tempo tempo = new Tempo();
-	private List<Texture> listOfCharacters = new ArrayList<Texture>();
 	private Menu menu;
 	private Character characterSelected;
 
@@ -154,8 +145,6 @@ public class Game {
 					if (this.gameController.getPlayerOfTheTurn().getHouse() == characterSelected
 							.getHouse())
 						if (characterSelected.isMoved()) {
-							System.out
-									.println("Esse heroi jah se moveu neste turno");
 							characterSelected = null;
 							return;
 						}
@@ -173,19 +162,14 @@ public class Game {
 													.getCharacter().getSpeed());
 						}
 					else {
-						System.out.println("Nao eh seu turno");
 						characterSelected = null;
 						return;
 					}
 				} else {
-					System.out
-							.println("sem heroi selecionado, lugar aleatorio");
 					return;
 				}
 			} else {
 				if (xPosition == XLastPosition && yPosition == YLastPosition) {
-					System.out
-							.println("Heroi selecionado, clicou no mesmo lugar");
 				} else {
 					if (characterSelected.canMove(gameController.getMap()
 							.getListOfPositions(), xPosition, yPosition)) {
@@ -202,14 +186,13 @@ public class Game {
 						tempo.updateFPS();
 						gameController.getMap().getPositionMatrix()[xPosition][yPosition]
 								.setCharacter(characterSelected);
-						gameController.changeTurn();
+						gameController.getMap().setListSize(0);
 						XLastPosition = xPosition;
 						YLastPosition = yPosition;
-						characterSelected.setMoved(true);
+						gameController.changeTurn();
 						characterSelected = null;
 						gameController.getMap().getListOfPositions().clear();
 					} else {
-						System.out.println("Eu nao deveria me mexer!");
 						characterSelected = null;
 					}
 				}

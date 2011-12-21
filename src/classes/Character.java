@@ -11,9 +11,6 @@ public class Character {
 	    LANNISTER
 	}
 	
-	public boolean isMoved() {
-		return moved;
-	}
 	protected String name;
 	protected int healthPoints;
 	protected int speed;
@@ -23,6 +20,9 @@ public class Character {
 	protected Texture texture;
 	protected boolean moved;
 
+	public boolean isMoved() {
+		return moved;
+	}
 	public void setMoved(boolean moved) {
 		this.moved = moved;
 	}
