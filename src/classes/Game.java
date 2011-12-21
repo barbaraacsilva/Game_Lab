@@ -32,7 +32,7 @@ public class Game {
 
 	private int tela = 0;
 	private int XLastPosition = 4;
-	private int YLastPosition = 7;
+	private int YLastPosition = 4;
 
 	private Tempo tempo = new Tempo();
 	private List<Texture> listOfCharacters = new ArrayList<Texture>();
@@ -107,32 +107,32 @@ public class Game {
 		}
 
 		// expansao da tela
-		
-//		if (tela == 1) {
-//			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
-//				v -= 0.5 * delta;
-//			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
-//				v += 0.5 * delta;
-//
-//			if (Keyboard.isKeyDown(Keyboard.KEY_UP))
-//				w -= 0.5 * delta;
-//			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
-//				w += 0.5 * delta;
-//
-//			int mapX = gameController.getMapX();
-//			int mapY = gameController.getMapY();
-//
-//			if (v < 400)
-//				v = 400;
-//			if (v > mapX - 400)
-//				v = mapX - 400;
-//			if (w < 304)
-//				w = 304;
-//			if (w > mapY - 304)
-//				w = mapY - 304;
-//			
-			move();
-//		}
+
+		// if (tela == 1) {
+		// if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+		// v -= 0.5 * delta;
+		// if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
+		// v += 0.5 * delta;
+		//
+		// if (Keyboard.isKeyDown(Keyboard.KEY_UP))
+		// w -= 0.5 * delta;
+		// if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
+		// w += 0.5 * delta;
+		//
+		// int mapX = gameController.getMapX();
+		// int mapY = gameController.getMapY();
+		//
+		// if (v < 400)
+		// v = 400;
+		// if (v > mapX - 400)
+		// v = mapX - 400;
+		// if (w < 304)
+		// w = 304;
+		// if (w > mapY - 304)
+		// w = mapY - 304;
+		//
+		move();
+		// }
 	}
 
 	/**
@@ -173,6 +173,7 @@ public class Game {
 						}
 					else {
 						System.out.println("Nao eh seu turno");
+						characterSelected = null;
 						return;
 					}
 				} else {
@@ -206,8 +207,10 @@ public class Game {
 						characterSelected.setMoved(true);
 						characterSelected = null;
 						gameController.getMap().getListOfPositions().clear();
-					} else
+					} else {
 						System.out.println("Eu nao deveria me mexer!");
+						characterSelected = null;
+					}
 				}
 			}
 		}
@@ -258,15 +261,17 @@ public class Game {
 		int x2, y2;
 		Texture texture = null;
 
-		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.STARK)) {
+		if (gameController.getMap().getPositionMatrix()[(int) x / 32][(int) y / 32]
+				.getCharacter().house().equals(House.STARK)) {
 			listOfCharacters.get(0).bind();
 			texture = listOfCharacters.get(0);
 		}
-		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.LANNISTER)) {
+		if (gameController.getMap().getPositionMatrix()[(int) x / 32][(int) y / 32]
+				.getCharacter().house().equals(House.LANNISTER)) {
 			listOfCharacters.get(1).bind();
 			texture = listOfCharacters.get(1);
 		}
-		
+
 		Color.white.bind();
 
 		GL11.glPushMatrix();
@@ -295,7 +300,7 @@ public class Game {
 			listOfCharacters.add(TextureLoader.getTexture("gif",
 					ResourceLoader.getResourceAsStream("eddard.gif")));
 			listOfCharacters.add(TextureLoader.getTexture("gif",
-					ResourceLoader.getResourceAsStream("jaime.gif")));		
+					ResourceLoader.getResourceAsStream("jaime.gif")));
 
 		} catch (IOException e) {
 			e.printStackTrace();
