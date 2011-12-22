@@ -1,7 +1,5 @@
 package classes;
 
-import java.util.Scanner;
-
 import classes.Character.House;
 
 public class GameController {
@@ -9,6 +7,22 @@ public class GameController {
 	private int mapX = 1600;
 	private int mapY = 1216;
 	protected Map map;
+	private Player playerOfTheTurn;
+	
+
+	public GameController () {
+		this.p1 = new Player();
+		this.p2 = new Player();
+		setPlayerOfTheTurn(p1);
+	}
+
+	public Player getPlayerOfTheTurn() {
+		return playerOfTheTurn;
+	}
+
+	public void setPlayerOfTheTurn(Player playerOfTheTurn) {
+		this.playerOfTheTurn = playerOfTheTurn;
+	}
 
 	public Player getP1() {
 		return p1;
@@ -45,26 +59,23 @@ public class GameController {
 	}
 	
 	public void setUp() {
-		p1 = new Player();
-		p2 = new Player();
-		// escolhe novo jogo
-		System.out.println("Escolha uma casa: Stark ou Lannister\n");
-		Scanner sc = new Scanner(System.in);
+		p1.setHouse(House.STARK);
+		p1.setHero(new Hero(House.STARK));
 		
-		if (sc.nextLine().equalsIgnoreCase("Stark")) {
-			p1.setHouse(House.STARK);
-			p1.setHero(new Hero(House.STARK));
-			p2.setHouse(House.LANNISTER);
-			p2.setHero(new Hero(House.LANNISTER));
-		}
-		else {
-			p1.setHouse(House.LANNISTER);
-			p1.setHero(new Hero(House.LANNISTER));
-			p2.setHouse(House.STARK);
-			p2.setHero(new Hero(House.STARK));
-		}
+		p2.setHouse(House.LANNISTER);
+		p2.setHero(new Hero(House.LANNISTER));
+
 		
 		map.getPositionMatrix()[4][4].setCharacter(p1.getHero());
 		map.getPositionMatrix()[20][14].setCharacter(p2.getHero());
+
+
 	}	
+	
+	public void changeTurn() {
+		if (this.playerOfTheTurn.equals(p1))
+			setPlayerOfTheTurn(p2);
+		else
+			setPlayerOfTheTurn(p1);
+	}
 }
