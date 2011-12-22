@@ -66,11 +66,16 @@ public class GameController {
 		p2.setHero(new Hero(House.LANNISTER));
 
 		
-		map.getPositionMatrix()[4][4].setCharacter(p1.getHero());
-		map.getPositionMatrix()[20][14].setCharacter(p2.getHero());
-
 
 	}	
+	
+	public void setHeroes() {
+		
+		map.getPositionMatrix()[4][4].setCharacter(p1.getHero());
+		map.getPositionMatrix()[20][14].setCharacter(p2.getHero());
+		
+	}
+	
 	
 	public void changeTurn() {
 		if (this.playerOfTheTurn.equals(p1))

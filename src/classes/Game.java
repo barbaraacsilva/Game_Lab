@@ -63,12 +63,13 @@ public class Game {
 		tempo.getDelta(); // call once before loop to initialise lastFrame
 		tempo.lastFPS = tempo.getTime(); // call before loop to initialise fps
 											// timer
+		gameController.setUp();
 		gameController.initialize();
+		gameController.setHeroes();
 
 		menu = new Menu(800, 608);
 		menu.generateMenu();
 		menu.loadImages();
-		gameController.setUp();
 
 		while (!Display.isCloseRequested()) {
 			int delta = tempo.getDelta();
@@ -254,51 +255,51 @@ public class Game {
 	}
 
 	public void renderGL() {
-
-		int x2, y2;
-		Texture texture = null;
-
-		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.STARK)) {
-			listOfCharacters.get(0).bind();
-			texture = listOfCharacters.get(0);
-		}
-		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.LANNISTER)) {
-			listOfCharacters.get(1).bind();
-			texture = listOfCharacters.get(1);
-		}
-		
-		Color.white.bind();
-
-		GL11.glPushMatrix();
-
-		x2 = (int) (x / 32) * 32;
-		y2 = (int) (y / 32) * 32;
-
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0, 0);
-		GL11.glVertex2f(x2, y2);
-		GL11.glTexCoord2f(1, 0);
-		GL11.glVertex2f(x2 + texture.getTextureWidth(), y2);
-		GL11.glTexCoord2f(1, 1);
-		GL11.glVertex2f(x2 + texture.getTextureWidth(),
-				y2 + texture.getTextureHeight());
-		GL11.glTexCoord2f(0, 1);
-		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
-		GL11.glEnd();
-
-		GL11.glPopMatrix();
+//
+//		int x2, y2;
+//		Texture texture = null;
+//
+//		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.STARK)) {
+//			listOfCharacters.get(0).bind();
+//			texture = listOfCharacters.get(0);
+//		}
+//		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.LANNISTER)) {
+//			listOfCharacters.get(1).bind();
+//			texture = listOfCharacters.get(1);
+//		}
+//		
+//		Color.white.bind();
+//
+//		GL11.glPushMatrix();
+//
+//		x2 = (int) (x / 32) * 32;
+//		y2 = (int) (y / 32) * 32;
+//
+//		GL11.glBegin(GL11.GL_QUADS);
+//		GL11.glTexCoord2f(0, 0);
+//		GL11.glVertex2f(x2, y2);
+//		GL11.glTexCoord2f(1, 0);
+//		GL11.glVertex2f(x2 + texture.getTextureWidth(), y2);
+//		GL11.glTexCoord2f(1, 1);
+//		GL11.glVertex2f(x2 + texture.getTextureWidth(),
+//				y2 + texture.getTextureHeight());
+//		GL11.glTexCoord2f(0, 1);
+//		GL11.glVertex2f(x2, y2 + texture.getTextureHeight());
+//		GL11.glEnd();
+//
+//		GL11.glPopMatrix();
 	}
 
 	public void init() {
-
-		try {
-			listOfCharacters.add(TextureLoader.getTexture("gif",
-					ResourceLoader.getResourceAsStream("eddard.gif")));
-			listOfCharacters.add(TextureLoader.getTexture("gif",
-					ResourceLoader.getResourceAsStream("jaime.gif")));		
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//
+//		try {
+//			listOfCharacters.add(TextureLoader.getTexture("gif",
+//					ResourceLoader.getResourceAsStream("eddard.gif")));
+//			listOfCharacters.add(TextureLoader.getTexture("gif",
+//					ResourceLoader.getResourceAsStream("jaime.gif")));		
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }

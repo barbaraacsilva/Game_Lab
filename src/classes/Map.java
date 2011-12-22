@@ -9,6 +9,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import classes.Character.House;
+
 
 
 public class Map {
@@ -16,6 +18,8 @@ public class Map {
 	private Position[][] positionMatrix;
 
 	private List<Texture> listOfTextures = new ArrayList<Texture>();
+	private List<Texture> listOfCharacters = new ArrayList<Texture>();
+
 	private List<Position> listOfPositions = new ArrayList<Position>();
 
 	private Integer width;
@@ -55,6 +59,12 @@ public class Map {
 			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama.png")));
 			listOfTextures.add(TextureLoader.getTexture("gif", ResourceLoader.getResourceAsStream("house.gif")));
 			listOfTextures.add(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("grama3.png")));
+
+			listOfCharacters.add(TextureLoader.getTexture("gif",
+					ResourceLoader.getResourceAsStream("eddard.gif")));
+			listOfCharacters.add(TextureLoader.getTexture("gif",
+					ResourceLoader.getResourceAsStream("jaime.gif")));		
+
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -65,6 +75,7 @@ public class Map {
 
 		Color.white.bind();
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+		Texture texture = null;
 		
 		int xmin;
 		int ymin;
@@ -94,7 +105,33 @@ public class Map {
 				GL11.glEnd();
 
 			}
-		}  
+		}
+		
+		for(int i = xmin;i < xmin+25; i++) {
+			for(int j = ymin; j < ymin+19; j++) {
+				if (!positionMatrix[i][j].isEmpty()) {
+
+					if (positionMatrix[i][j].getCharacter().house().equals(House.STARK)) {
+						listOfCharacters.get(0).bind();
+					}
+					if (positionMatrix[i][j].getCharacter().house().equals(House.LANNISTER)) {
+						listOfCharacters.get(1).bind();
+					}
+					GL11.glBegin(GL11.GL_QUADS);
+						GL11.glTexCoord2f(0,0);
+						GL11.glVertex2f((32*i)%800,(j*32)%608);
+						GL11.glTexCoord2f(1,0);
+						GL11.glVertex2f(32+(32*i)%800,(j*32)%608);
+						GL11.glTexCoord2f(1,1);
+						GL11.glVertex2f(32+(32*i)%800,32+(j*32)%608);
+						GL11.glTexCoord2f(0,1);
+						GL11.glVertex2f((32*i)%800,32+(j*32)%608);
+					GL11.glEnd();
+					
+				}
+
+			}
+		}
 	}
 	
 	public Position[][] getPositionMatrix() {
