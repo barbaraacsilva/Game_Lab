@@ -64,8 +64,7 @@ public class GameController {
 			p2.setHero(new Hero(House.STARK));
 		}
 		
-		
-		
-		map.getPositionMatrix()[4][7].setCharacter(p1.getHero());
+		map.getPositionMatrix()[4][4].setCharacter(p1.getHero());
+		map.getPositionMatrix()[20][14].setCharacter(p2.getHero());
 	}	
 }

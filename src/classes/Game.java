@@ -1,6 +1,9 @@
 package classes;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -11,9 +14,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
-import classes.Player;
-import classes.Character;
-import classes.Map;
+
+import classes.Character.House;
 
 /**
  * @author caio, vinicius, luciana, barbara
@@ -34,7 +36,7 @@ public class Game {
 	private int YLastPosition = 7;
 
 	private Tempo tempo = new Tempo();
-	private Texture texture;
+	private List<Texture> listOfCharacters = new ArrayList<Texture>();
 	private Menu menu;
 	private Character characterSelected;
 
@@ -105,33 +107,33 @@ public class Game {
 			}
 		}
 
-		if (tela == 1) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
-				v -= 0.5 * delta;
-			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
-				v += 0.5 * delta;
-
-			if (Keyboard.isKeyDown(Keyboard.KEY_UP))
-				w -= 0.5 * delta;
-			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
-				w += 0.5 * delta;
-
-			int mapX = gameController.getMapX();
-			int mapY = gameController.getMapY();
-
-			if (v < 400)
-				v = 400;
-			if (v > mapX - 400)
-				v = mapX - 400;
-			if (w < 304)
-				w = 304;
-			if (w > mapY - 304)
-				w = mapY - 304;
-
-			// System.out.println(v +" " +w );
-
+		// expansao da tela
+		
+//		if (tela == 1) {
+//			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+//				v -= 0.5 * delta;
+//			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
+//				v += 0.5 * delta;
+//
+//			if (Keyboard.isKeyDown(Keyboard.KEY_UP))
+//				w -= 0.5 * delta;
+//			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
+//				w += 0.5 * delta;
+//
+//			int mapX = gameController.getMapX();
+//			int mapY = gameController.getMapY();
+//
+//			if (v < 400)
+//				v = 400;
+//			if (v > mapX - 400)
+//				v = mapX - 400;
+//			if (w < 304)
+//				w = 304;
+//			if (w > mapY - 304)
+//				w = mapY - 304;
+//			
 			move();
-		}
+//		}
 	}
 
 	/**
@@ -229,7 +231,7 @@ public class Game {
 	private void initGL(int width, int height) {
 
 		x = 128;
-		y = 224;
+		y = 128;
 
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
@@ -258,8 +260,17 @@ public class Game {
 	public void renderGL() {
 
 		int x2, y2;
+		Texture texture = null;
 
-		texture.bind();
+		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.STARK)) {
+			listOfCharacters.get(0).bind();
+			texture = listOfCharacters.get(0);
+		}
+		if (gameController.getMap().getPositionMatrix()[(int)x/32][(int)y/32].getCharacter().house().equals(House.LANNISTER)) {
+			listOfCharacters.get(1).bind();
+			texture = listOfCharacters.get(1);
+		}
+		
 		Color.white.bind();
 
 		GL11.glPushMatrix();
@@ -285,9 +296,11 @@ public class Game {
 	public void init() {
 
 		try {
-			// load texture from PNG file
-			texture = TextureLoader.getTexture("png",
-					ResourceLoader.getResourceAsStream("cogumelo.png"));
+			listOfCharacters.add(TextureLoader.getTexture("gif",
+					ResourceLoader.getResourceAsStream("eddard.gif")));
+			listOfCharacters.add(TextureLoader.getTexture("gif",
+					ResourceLoader.getResourceAsStream("jaime.gif")));		
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
